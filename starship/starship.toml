@@ -1,20 +1,19 @@
+# https://starship.rs/advanced-config/#style-strings
 # 󱢇
 "$schema" = 'https://starship.rs/config-schema.json'
-
 add_newline = true
-
-format = '$all$git_branch$git_commit$git_state$git_metrics$git_status$cmd_duration$line_break$character'
-
+command_timeout = 1000
 continuation_prompt = '[›](dimmed white)'
+format = '$directory$all$git_branch$git_commit$git_state$git_metrics$git_status$cmd_duration$line_break$character'
 
 # •
 [character]
-success_symbol = '[»](bold green)'
-error_symbol = '[»](bold red)'
-vimcmd_symbol = '[«](bold green)'
-vimcmd_replace_one_symbol = '[«](bold purple)'
-vimcmd_replace_symbol = '[«](bold purple)'
-vimcmd_visual_symbol = '[«](bold yellow)'
+success_symbol = '[»](green)'
+error_symbol = '[»](160)' # slightly dimmer red
+vimcmd_symbol = '[«](green)'
+vimcmd_replace_one_symbol = '[«](purple)'
+vimcmd_replace_symbol = '[«](purple)'
+vimcmd_visual_symbol = '[«](yellow)'
 
 # Replacing the default symbols for each language with Nerd Font symbols
 # A Nerd Font must be installed and activated in the terminal for these to show
@@ -23,7 +22,11 @@ vimcmd_visual_symbol = '[«](bold yellow)'
 symbol = " "
 format = ' \[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
 
+[azure]
+style = 'bright-blue'
+
 [buf]
+style = 'bright-blue'
 symbol = " "
 
 [bun]
@@ -34,12 +37,14 @@ symbol = " "
 format = ' \[[$symbol($version(-$name))]($style)\]'
 
 [cmake]
+style = 'bright-blue'
 format = ' \[[$symbol($version)]($style)\]'
 
 [cmd_duration]
 format = ' \[[⏱ $duration]($style)\]'
 
 [cobol]
+style = 'bright-blue'
 format = ' \[[$symbol($version)]($style)\]'
 
 [conda]
@@ -53,6 +58,7 @@ format = ' \[[$symbol($version)]($style)\]'
 format = ' \[[$symbol($version)]($style)\]'
 
 [dart]
+style = 'bright-blue'
 symbol = " "
 format = ' \[[$symbol($version)]($style)\]'
 
@@ -60,17 +66,20 @@ format = ' \[[$symbol($version)]($style)\]'
 format = ' \[[$symbol($version)]($style)\]'
 
 [directory]
+style = 'cyan'
 format = '[$path]($style)[$read_only]($read_only_style)'
 read_only = " 󰌾"
 truncation_length = 0
 truncate_to_repo = false
 
 [docker_context]
+style = 'bright-blue'
 symbol = " "
 format = ' \[[$symbol$context]($style)\]'
 
 [dotnet]
-format = ' \[[$symbol($version)(🎯 $tfm)]($style)\]'
+style = 'bright-blue'
+format = ' \[[$symbol($version)(🎯 $tfm)]($style)\]' # tfm = target framework version
 
 [elixir]
 symbol = " "
@@ -91,14 +100,26 @@ symbol = " "
 format = ' \[[$symbol$branch]($style)\]'
 
 [gcloud]
+style = 'bright-blue'
 format = ' \[[$symbol$account(@$domain)(\($region\))]($style)\]'
 
 [git_branch]
+style = 'purple'
 symbol = " "
 format = ' \[[$symbol$branch]($style)\]'
 
+[git_commit]
+style = 'green'
+
+[git_metrics]
+added_style = 'green'
+deleted_style = '160' # slightly dimmer red
+
+[git_state]
+style = 'yellow'
+
 [git_status]
-style = 'bold red'
+style = '160' # slightly dimmer red
 format = '[$modified$conflicted$stashed$deleted$renamed$staged$untracked$ahead_behind]($style)'
 ahead = ' 󰧆'
 behind = ' 󰦸'
@@ -118,6 +139,7 @@ symbol = " "
 format = ' \[[$symbol($version)]($style)\]'
 
 [gradle]
+style = 'bright-cyan'
 format = ' \[[$symbol($version)]($style)\]'
 
 [guix_shell]
@@ -146,17 +168,22 @@ ssh_symbol = " "
 symbol = " "
 format = ' \[[$symbol($version)]($style)\]'
 
+[jobs]
+style = 'bright-blue'
+
 [julia]
 symbol = " "
 format = ' \[[$symbol($version)]($style)\]'
 
 [kotlin]
+style = 'bright-blue'
 format = ' \[[$symbol($version)]($style)\]'
 
 [kubernetes]
 format = ' \[[$symbol$context( \($namespace\))]($style)\]'
 
 [lua]
+style = 'bright-blue'
 symbol = " "
 format = ' \[[$symbol($version)]($style)\]'
 
@@ -165,6 +192,7 @@ symbol = "󰍛 "
 format = ' \[$symbol[$ram( | $swap)]($style)\]'
 
 [meson]
+style = 'bright-blue'
 symbol = "󰔷 "
 format = ' \[[$symbol$project]($style)\]'
 
@@ -173,10 +201,13 @@ symbol = "󰆥 "
 format = ' \[[$symbol($version)]($style)\]'
 
 [nix_shell]
+style = 'bright-blue'
 symbol = " "
 format = ' \[[$symbol$state( \($name\))]($style)\]'
 
 [nodejs]
+style = 'green'
+not_capable_style = '160' # slightly dimmer red
 symbol = " "
 format = ' \[[$symbol($version)]($style)\]'
 
@@ -184,12 +215,14 @@ format = ' \[[$symbol($version)]($style)\]'
 format = ' \[[$symbol($version)(\($switch_indicator$switch_name\))]($style)\]'
 
 [opa]
+style = 'bright-blue'
 format = ' \[[$symbol($version)]($style)\]'
 
 [openstack]
 format = ' \[[$symbol$cloud(\($project\))]($style)\]'
 
 [os]
+style = 'white'
 format = ' \[[$symbol]($style)\]'
 
 [os.symbols]
@@ -234,6 +267,7 @@ Unknown = " "
 Windows = "󰍲 "
 
 [package]
+style = '208'
 symbol = "󰏗 "
 format = ' \[[$symbol$version]($style)\]'
 
@@ -254,6 +288,7 @@ format = ' \[[$symbol$stack]($style)\]'
 format = ' \[[$symbol($version)]($style)\]'
 
 [python]
+style = 'yellow'
 symbol = " "
 format = ' \[[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
 
@@ -264,14 +299,17 @@ format = ' \[[$symbol($version-$vm_version)]($style)\]'
 format = ' \[[$symbol($version)]($style)\]'
 
 [rlang]
+style = 'bright-blue'
 symbol = "󰟔 "
 
 [ruby]
-detect_variables = []
+style = '160' # slightly dimmer red
 symbol = " "
 format = ' \[[$symbol($version)]($style)\]'
+detect_variables = []
 
 [rust]
+style = '160' # slightly dimmer red
 symbol = " "
 format = ' \[[$symbol($version)]($style)\]'
 
@@ -279,10 +317,22 @@ format = ' \[[$symbol($version)]($style)\]'
 symbol = " "
 format = ' \[[$symbol($version)]($style)\]'
 
+[shell]
+style = 'white'
+
+[singularity]
+style = 'bright-blue'
+
+[solidity]
+style = 'bright-blue'
+format = ' \[[$symbol($version)]($style)\]'
+
 [spack]
+style = 'bright-blue'
 format = ' \[[$symbol$environment]($style)\]'
 
 [sudo]
+style = 'bright-blue'
 format = ' \[[as $symbol]($style)\]'
 
 [swift]
@@ -292,6 +342,7 @@ format = ' \[[$symbol($version)]($style)\]'
 format = ' \[[$symbol$workspace]($style)\]'
 
 [time]
+style = 'yellow'
 format = ' \[[$time]($style)\]'
 
 [username]
@@ -301,10 +352,8 @@ format = ' \[[$user]($style)\]'
 format = ' \[[$symbol($version)]($style)\]'
 
 [vlang]
+style = 'bright-blue'
 format = ' \[[$symbol($version)]($style)\]'
 
 [zig]
-format = ' \[[$symbol($version)]($style)\]'
-
-[solidity]
 format = ' \[[$symbol($version)]($style)\]'

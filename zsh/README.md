@@ -1,3 +1,4 @@
 ~/.zshrc
 
-~/.oh-my-zsh/themes/custom.zsh-theme
+~/.oh-my-zsh/custom/config.zsh
+~/.oh-my-zsh/custom/themes/personal.zsh-theme
