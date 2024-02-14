@@ -17,6 +17,7 @@ vimcmd_visual_symbol = '[«](yellow)'
 
 # Replacing the default symbols for each language with Nerd Font symbols
 # A Nerd Font must be installed and activated in the terminal for these to show
+# This config was written using "SauceCodePro Nerd Font"
 
 [aws]
 symbol = " "
@@ -129,8 +130,9 @@ diverged = ' 󰃻'
 modified = ' '
 renamed = ' '
 staged = ' '
-stashed = ' '
-typechanged = ""
+# stashed = ' '
+stashed = ''
+typechanged = ''
 untracked = ' 󰻭'
 up_to_date = ''
 
