@@ -34,14 +34,26 @@ export PATH="$PATH:$HOME/Library/Flutter/sdk/bin"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 
+# --- Bun ---
+
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+alias updatebun="bun upgrade"
+
+
 # --- pnpm ---
 
-# ! pnpm is now handled through npm !
-# export PNPM_HOME="$HOME/Library/pnpm"
-# case ":$PATH:" in
-#   *":$PNPM_HOME:"*) ;;
-#   *) export PATH="$PNPM_HOME:$PATH" ;;
-# esac
+export PNPM_HOME="/Users/parker/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+alias updatepnpm="npm install -g pnpm@9"
 
 
 # --- NVM ---
@@ -49,6 +61,9 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+# --- RVM ---
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
@@ -83,9 +98,9 @@ alias startpg="brew services start postgresql@14"
 alias stoppg="brew services stop postgresql@14"
 alias dockerpurge="docker system prune -a -f --volumes"
 alias pn="pnpm $@"
-alias updatepnpm="npm install -g pnpm@8"
 alias ll="ls -la" # Preferred "ll" implementation
-alias reload="source ~/.zshrc"
+alias reloadzsh="source ~/.zshrc"
+alias editzsh="nano ~/.oh-my-zsh/custom/config.zsh"
 
 # Go back 1 directory level (for typos)
 alias cd..='cd ../'
