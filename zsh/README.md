@@ -1,3 +1,4 @@
+~/.zprofile
 ~/.zshrc
 
 ~/.oh-my-zsh/custom/config.zsh

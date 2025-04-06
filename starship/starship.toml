@@ -4,7 +4,7 @@
 add_newline = true
 command_timeout = 1000
 continuation_prompt = '[›](dimmed white)'
-format = '$directory$all$git_branch$git_commit$git_state$git_metrics$git_status$cmd_duration$line_break$character'
+format = '$directory$aws$all$git_branch$git_commit$git_state$git_metrics$git_status$cmd_duration$line_break$character'
 
 # •
 [character]
@@ -15,13 +15,22 @@ vimcmd_replace_one_symbol = '[«](purple)'
 vimcmd_replace_symbol = '[«](purple)'
 vimcmd_visual_symbol = '[«](yellow)'
 
-# Replacing the default symbols for each language with Nerd Font symbols
-# A Nerd Font must be installed and activated in the terminal for these to show
+# Replacing the default symbols for each language with Nerd Font symbols.
+# A Nerd Font must be installed and activated in the terminal for these to show.
 # This config was written using "SauceCodePro Nerd Font"
 
 [aws]
+style = '208'
 symbol = " "
-format = ' \[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
+format = ' \[[$symbol($profile.)($region)(\($duration\))]($style)\]'
+
+[aws.profile_aliases]
+personal = '1'
+streetvet = '2'
+
+[aws.region_aliases]
+us-east-1 = 'ue1'
+us-east-2 = 'ue2'
 
 [azure]
 style = 'bright-blue'
