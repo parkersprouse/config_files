@@ -58,7 +58,9 @@ zstyle ':omz:update' mode auto      # update automatically without asking
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(forklift git history z zsh-autosuggestions zsh-syntax-highlighting)
 
-source $ZSH/oh-my-zsh.sh
+# [ -s "$HOME/.mole/_mole_completions" ] && source "$HOME/.mole/_mole_completions"
+
+source "$ZSH/oh-my-zsh.sh"
 
 # Initialize Starship - has to happen here, last, and not in Oh My Zsh config
 eval "$(starship init zsh)"
