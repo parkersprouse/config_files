@@ -1,0 +1,11 @@
+if [[ -n "$1" ]]; then
+  if [[ -d "$1" ]]; then
+    echo "Directory \"$1\" already exists" >&2
+    return 1
+  else
+    command mkdir "$1" && cd "$1"
+  fi
+else
+  echo 'Usage: godir <name>' >&2
+  return 1
+fi

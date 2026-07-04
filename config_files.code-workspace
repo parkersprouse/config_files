@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+  ],
+  "settings": {
+    "files.associations": {
+      // VS Code ships a custom glob matcher that leaves out a variety of syntax for performance reasons,
+      // and then works on a "higher-specificity-wins" basis
+      "**/zsh/**": "shellscript",
+      "**/zsh/**/*.md": "markdown"
+    }
+  }
+}

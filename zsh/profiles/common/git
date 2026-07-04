@@ -1,0 +1,16 @@
+if ! exists git; then echo 'command "git" not found' >&2; return 1; fi
+
+# Run 'git pull' on all subdirectories
+if [[ "$1" = "all" ]]; then
+  command ls | xargs -I{} git -C {} pull
+# Delete all git branches that contain the provided text
+elif [[ "$1" = "del" ]]; then
+  shift
+  command git branch | grep "$@" | xargs git branch -D
+# Look through all local & remote branches in a repo for a provided string
+elif [[ "$1" = "find" ]] || [[ "$1" = "search" ]]; then
+  shift
+  command git grep --line-number --break --heading --recursive --full-name $@ $(git branch --list --all --format='%(refname)')
+else
+  command git $@
+fi

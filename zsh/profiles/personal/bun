@@ -1,0 +1,7 @@
+if ! exists bun; then echo 'command "bun" not found' >&2; return 1; fi
+
+if [[ "$1" = "up" ]]; then
+  bun upgrade
+else
+  command bun $@
+fi

@@ -1,0 +1,6 @@
+# Modify the `open` command to use ForkLift instead of Finder, when available
+if [[ -d /Applications/ForkLift.app ]]; then
+  command open -a ForkLift $@;
+else
+  command open $@;
+end

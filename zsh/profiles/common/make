@@ -1,0 +1,18 @@
+if ! exists make; then echo 'command "make" not found' >&2; return 1; fi
+
+if [[ "$1" = "purge" ]] || [[ "$1" = "nuke" ]]; then
+  command make stop && command make clean && docker purge
+elif [[ "$1" = "restart" ]]; then
+  command make stop && command make start
+elif [[ "$1" = "refresh" ]]; then
+  command make stop && command make init && command make build && command make start
+elif [[ "$1" = "reset" ]]; then
+  command make stop && command make clean && command make init && command make build && command make start
+else
+  command make $@
+fi
+
+# elif [[ "$1" = "nukes" ]]; then
+#   command make clean && command make init && command make start && command make shell
+# elif [[ "$1" = "nukel" ]]; then
+#   command make clean && command make init && command make start && command make logstail

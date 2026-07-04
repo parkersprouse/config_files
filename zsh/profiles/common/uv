@@ -1,0 +1,13 @@
+if ! exists uv; then echo 'command "uv" not found' >&2; return 1; fi
+
+if [[ "$1" = "python" ]]; then
+  shift
+  if [[ "$1" = "global" ]]; then
+    shift
+    command uv python install --preview-features python-install-default --default $@
+  else
+    command uv python $@
+  fi
+else
+  command uv $@
+fi

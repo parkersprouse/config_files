@@ -1,0 +1,9 @@
+if ! exists nvm; then echo 'command "nvm" not found' >&2; return 1; fi
+
+if [[ "$1" = "update" ]]; then
+  local nvm_version="v0.40.4"
+  # The 'PROFILE=/dev/null' prefix prevents the script from auto-updating any of the shell profile configs
+  eval "PROFILE=/dev/null zsh -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$nvm_version/install.sh | bash'"
+else
+  command nvm $@
+fi

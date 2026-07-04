@@ -1,0 +1,17 @@
+if ! exists aws; then echo 'command "aws" not found' >&2; return 1; fi
+
+# Update the AWS CLI
+if [[ "$1" = "update" ]]; then
+  command curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" --create-dirs -o "/tmp/AWSCLIV2.pkg" && \
+    command sudo installer -pkg "/tmp/AWSCLIV2.pkg" -target / && \
+    command rm -f "/tmp/AWSCLIV2.pkg"
+elif [[ "$1" = "login" ]]; then
+  if [[ -n "$2" ]]; then
+    shift
+    aws sso login --profile $@
+  else
+    aws sso login --profile $(echo $AWS_PROFILE)
+  fi
+else
+  command aws $@
+fi

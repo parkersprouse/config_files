@@ -54,193 +54,6 @@ export CPPFLAGS="$CPPFLAGS -I$(brew --prefix postgresql@16)/include"
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH $(brew --prefix postgresql@16)/lib/pkgconfig"
 
 
-#-----------#
-# Functions #
-#-----------#
-
-# iconvert img.jpg png
-iconvert() {
-  if [[ $# -eq 2 ]]; then
-    if_exists magick mogrify -format $2 $1
-  else
-    echo 'Usage: iconvert <file> <extension>' >&2
-    echo 'Example: iconvert img.jpg png' >&2
-    return 1
-  fi
-}
-
-# -----
-
-# pad_audio file.webm --> file.mp3
-# pad_audio file.webm aac -b:a 96K --> file.aac
-pad_audio() {
-  if [[ -z $1 ]]; then echo 'Usage: pad_audio <file> [extension]' >&2; return 1; fi
-  if ! exists ffmpeg || ! exists ffprobe; then echo 'FFmpeg must be installed to run this command' >&2; return 1; fi
-
-  local input_file=$1
-
-  local current_dur=$(ffprobe -hide_banner -loglevel quiet -output_format csv=p=0 -show_entries format=duration $input_file)
-  local new_dur=$(ceil $current_dur)
-  shift
-
-  local output_ext=$1
-  if [[ $output_ext = *"-"* ]]; then
-    if [[ $output_ext = "--" ]]; then shift; fi
-    output_ext="mp3"
-  elif [[ -n $output_ext ]]; then
-    output_ext="${output_ext:l}"
-    shift
-  else
-    output_ext="mp3"
-  fi
-
-  local output_file="$(echo $input_file | grep -o '^.*\.')$output_ext"
-  ffmpeg -hide_banner -loglevel quiet -i $input_file -af "apad=whole_dur=$new_dur" $* $output_file
-  echo "Audio padded from ${current_dur}s -> ${new_dur}s"
-}
-
-# -----
-
-disks() {
-  command diskutil list
-}
-
-# -----
-
-unmount() {
-  if [[ -n "$1" ]]; then
-    command diskutil unmountDisk $1
-  else
-    echo 'Usage: unmount <device>' >&2
-    return 1
-  fi
-}
-
-# -----
-
-# ExFAT EXT_USB MBRFormat /dev/disk5
-erase() {
-  local format=$1
-  if [[ -z $format ]]; then format="ExFAT"; fi
-
-  local name=$2
-  if [[ -z $name ]]; then name="EXT_USB"; fi
-
-  local type=$3
-  if [[ -z $type ]]; then format="MBRFormat"; fi
-
-  local device=$4
-
-  if [[ -n "$device" ]]; then
-    command diskutil eraseDisk $format $name $type $device
-  else
-    echo 'Usage: erase <format> <name> [APM[Format] | MBR[Format] | GPT[Format]] <device>' >&2
-    return 1
-  fi
-}
-
-# -----
-
-wipe() {
-  if [[ -n "$1" ]]; then
-    erase ExFAT EXT_USB MBRFormat $1
-  else
-    echo 'Usage: wipedisk <device>' >&2
-    return 1
-  fi
-}
-
-# -----
-
-allow() {
-  if [[ -n "$1" ]]; then
-    command xattr -d com.apple.quarantine "$1"
-  else
-    echo 'Usage: allow <file>' >&2
-    return 1
-  fi
-}
-
-# -----
-
-weather() {
-  local cmd="curl wttr.in"
-  if [[ -n "$1" ]]; then
-    eval "$cmd/$1"
-  else
-    eval "$cmd/Chalmette+LA"
-  fi
-}
-
-# -----
-
-ytdl() {
-  if ! exists docker; then echo 'command "docker" not found' >&2; return 1; fi
-
-  if [ -n "$1" ]; then
-    if ! exists yt-dlp; then
-      echo "command \"yt-dlp\" not found" >&2
-      return 1
-    elif ! exists magick; then
-      echo "command \"magick\" not found" >&2
-      return 1
-    elif ! exists ffmpeg; then
-      echo "command \"ffmpeg\" not found" >&2
-      return 1
-    fi
-
-    local outputdir="${PWD}"
-    # if [[ ! -d "$outputdir" ]]; then mkdir "$outputdir"; fi
-
-    echo "----------------"
-    echo '[GRABBING VIDEO]'
-    echo "----------------"
-    # --extractor-args 'youtube:max_comments=0,0,0,0;skip=translated_subs'
-    # --limit-rate 5M \
-    # --no-keep-fragments \
-    local output=$(yt-dlp \
-      --console-title \
-      --progress \
-      --no-mark-watched \
-      --no-cache-dir \
-      --no-overwrites \
-      --write-thumbnail \
-      --cookies-from-browser firefox \
-      --restrict-filenames \
-      -f 'bv*+ba/b' \
-      --merge-output-format mp4 \
-      --paths 'tmp:/tmp' \
-      --paths "home:$outputdir" \
-      --output '%(title)s_prethumb.%(ext)s' \
-      $1 | grep 'Merging formats into')
-
-    local trim1=$(echo $output | sed -e 's/\([ ]*\)\[Merger\] Merging formats into\([ ]*\)//g')
-    local trim2=$(echo $trim1 | sed -e "s/\"//g")
-    local trim3=$(echo $trim2 | sed -e "s#$outputdir/##")
-    local name=$(echo $trim3 | sed -e "s/\.mp4//g")
-    local finalname=$(echo $name | sed -e "s/_prethumb//g")
-
-    echo "\n----------------------"
-    echo '[CONVERTING THUMBNAIL]'
-    echo "----------------------"
-    magick "$outputdir/$name.webp" -clamp -despeckle -enhance "$outputdir/$name.jpg"
-
-    echo "\n---------------------------"
-    echo '[ADDING THUMBNAIL TO VIDEO]'
-    echo "---------------------------"
-    ffmpeg -hide_banner -i "$outputdir/$name.mp4" -i "$outputdir/$name.jpg" -map 1 -map 0 -c copy -disposition:0 attached_pic "$outputdir/$finalname.mp4"
-
-    echo "\n------------------------"
-    echo '[CLEANING UP FILE PARTS]'
-    echo "------------------------"
-    rm "$outputdir/$name.webp" "$outputdir/$name.jpg" "$outputdir/$name.mp4"
-  else
-    echo 'Usage: ytdl <url>' >&2
-    return 1
-  fi
-}
-
-
 #--------------#
 # Integrations #
 #--------------#
@@ -256,16 +69,6 @@ export AWS_PROFILE=personal
 # bun completions
 [[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun" && export BUN_INSTALL="$HOME/.bun"
 [[ -d "$BUN_INSTALL/bin" ]] && export PATH="$BUN_INSTALL/bin:$PATH"
-
-bun() {
-  if ! exists bun; then echo 'command "bun" not found' >&2; return 1; fi
-
-  if [[ "$1" = "up" ]]; then
-    bun upgrade
-  else
-    command bun $@
-  fi
-}
 
 
 # --- [[ Caddy ]] ---
@@ -283,11 +86,6 @@ bun() {
 
 # Set up the `direnv` hooks
 if exists direnv; then
-  _direnv_hook() {
-    trap -- '' SIGINT
-    eval "$(direnv export zsh)"
-    trap - SIGINT
-  }
   typeset -ag precmd_functions
   if (( ! ${precmd_functions[(I)_direnv_hook]} )); then
     precmd_functions=(_direnv_hook $precmd_functions)
@@ -321,18 +119,6 @@ export PATH="$PATH:/Library/Frameworks/GStreamer.framework/Versions/1.0/bin"
 
 
 # --[[ nvm ]]--
-
-nvm() {
-  if ! exists nvm; then echo 'command "nvm" not found' >&2; return 1; fi
-
-  if [[ "$1" = "update" ]]; then
-    local nvm_version="v0.40.4"
-    # The 'PROFILE=/dev/null' prefix prevents the script from auto-updating any of the shell profile configs
-    eval "PROFILE=/dev/null zsh -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$nvm_version/install.sh | bash'"
-  else
-    command nvm $@
-  fi
-}
 
 export NVM_DIR="$HOME/.nvm"
 [[ -f $NVM_DIR/nvm.sh ]] && source "$NVM_DIR/nvm.sh" # Load nvm

@@ -1,0 +1,11 @@
+if [[ -d "$1" ]]; then
+  if is_empty $1; then
+    $@
+  else
+    echo "\"$1\" is not empty" >&2
+    return 1
+  fi
+else
+  echo "\"$1\" is not a directory" >&2
+  return 1
+fi

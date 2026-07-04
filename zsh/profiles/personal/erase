@@ -1,0 +1,17 @@
+local format=$1
+if [[ -z $format ]]; then format="ExFAT"; fi
+
+local name=$2
+if [[ -z $name ]]; then name="EXT_USB"; fi
+
+local type=$3
+if [[ -z $type ]]; then format="MBRFormat"; fi
+
+local device=$4
+
+if [[ -n "$device" ]]; then
+  command diskutil eraseDisk $format $name $type $device
+else
+  echo 'Usage: erase <format> <name> [APM[Format] | MBR[Format] | GPT[Format]] <device>' >&2
+  return 1
+fi

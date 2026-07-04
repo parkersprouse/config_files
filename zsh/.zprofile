@@ -1,3 +1,8 @@
+# ------------------------
+# This function exists in here and not with the rest of the `.zshrc` configuration so that it
+#   can be available to external tools that invoke zsh commands, like Forklift.
+# ------------------------
+
 # # Save all content names to text file [NAME]
 # output=$(ls -A1 | sort)
 # echo $output > $all_output_fname
@@ -69,8 +74,9 @@ save() {
       elif (( $ARGS_HELP[(Ie)$arg] )); then
         show_save_help
       else
-        echo "Ignoring unexpected argument: '$arg'"
-        echo "Use '-h' or '--help' for usage"
+        echo "Unexpected argument: '$arg'" >&2
+        echo "Use '-h' or '--help' for usage" >&2
+        return 1
       fi
     done
   fi

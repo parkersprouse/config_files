@@ -1,0 +1,23 @@
+if [[ -z $1 ]]; then echo 'Usage: pad_audio <file> [extension]' >&2; return 1; fi
+if ! exists ffmpeg || ! exists ffprobe; then echo 'FFmpeg must be installed to run this command' >&2; return 1; fi
+
+local input_file=$1
+
+local current_dur=$(ffprobe -hide_banner -loglevel quiet -output_format csv=p=0 -show_entries format=duration $input_file)
+local new_dur=$(ceil $current_dur)
+shift
+
+local output_ext=$1
+if [[ $output_ext = *"-"* ]]; then
+  if [[ $output_ext = "--" ]]; then shift; fi
+  output_ext="mp3"
+elif [[ -n $output_ext ]]; then
+  output_ext="${output_ext:l}"
+  shift
+else
+  output_ext="mp3"
+fi
+
+local output_file="$(echo $input_file | grep -o '^.*\.')$output_ext"
+ffmpeg -hide_banner -loglevel quiet -i $input_file -af "apad=whole_dur=$new_dur" $* $output_file
+echo "Audio padded from ${current_dur}s -> ${new_dur}s"

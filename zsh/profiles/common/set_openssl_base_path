@@ -1,0 +1,15 @@
+if ! exists openssl; then echo 'command "openssl" not found' >&2; return 1; fi
+
+local openssl_path=$(which openssl)
+local resolved_symlink=$(readlink $openssl_path)
+local abs_prefix="/opt/homebrew"
+local base_path=${resolved_symlink/../$abs_prefix}
+
+# Likely needs to be first in PATH for building / installing Rubies
+export PATH="$base_path/bin:$PATH"
+
+export LDFLAGS="-L$base_path/lib"
+export CPPFLAGS="$CPPFLAGS -I$base_path/include"
+export PKG_CONFIG_PATH="$base_path/lib/pkgconfig"
+
+reload

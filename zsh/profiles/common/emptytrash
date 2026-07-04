@@ -1,0 +1,5 @@
+if ! is_empty ~/.Trash; then
+  osascript -e 'tell app "Finder" to empty'
+else
+  echo 'Trash is already empty'
+fi

@@ -1,0 +1,16 @@
+if ! exists pnpm; then echo 'command "pnpm" not found' >&2; return 1; fi
+
+# Update pnpm
+if [[ "$1" = "upgrade" ]] || [[ "$1" = "up" ]]; then
+  if [[ -n "$2" ]]; then
+    pnpm self-update $2
+  else
+    pnpm self-update
+  fi
+elif [[ "$1" = "clean" ]]; then
+  pnpx rimraf -I -g "**/node_modules"
+elif [[ "$1" = "refresh" ]]; then
+  pnpm clean && pnpm install
+else
+  command pnpm $@
+fi

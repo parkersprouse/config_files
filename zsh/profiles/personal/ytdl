@@ -1,0 +1,63 @@
+if ! exists docker; then echo 'command "docker" not found' >&2; return 1; fi
+
+if [ -n "$1" ]; then
+  if ! exists yt-dlp; then
+    echo "command \"yt-dlp\" not found" >&2
+    return 1
+  elif ! exists magick; then
+    echo "command \"magick\" not found" >&2
+    return 1
+  elif ! exists ffmpeg; then
+    echo "command \"ffmpeg\" not found" >&2
+    return 1
+  fi
+
+  local outputdir="${PWD}"
+  # if [[ ! -d "$outputdir" ]]; then mkdir "$outputdir"; fi
+
+  echo "----------------"
+  echo '[GRABBING VIDEO]'
+  echo "----------------"
+  # --extractor-args 'youtube:max_comments=0,0,0,0;skip=translated_subs'
+  # --limit-rate 5M \
+  # --no-keep-fragments \
+  local output=$(yt-dlp \
+    --console-title \
+    --progress \
+    --no-mark-watched \
+    --no-cache-dir \
+    --no-overwrites \
+    --write-thumbnail \
+    --cookies-from-browser firefox \
+    --restrict-filenames \
+    -f 'bv*+ba/b' \
+    --merge-output-format mp4 \
+    --paths 'tmp:/tmp' \
+    --paths "home:$outputdir" \
+    --output '%(title)s_prethumb.%(ext)s' \
+    $1 | grep 'Merging formats into')
+
+  local trim1=$(echo $output | sed -e 's/\([ ]*\)\[Merger\] Merging formats into\([ ]*\)//g')
+  local trim2=$(echo $trim1 | sed -e "s/\"//g")
+  local trim3=$(echo $trim2 | sed -e "s#$outputdir/##")
+  local name=$(echo $trim3 | sed -e "s/\.mp4//g")
+  local finalname=$(echo $name | sed -e "s/_prethumb//g")
+
+  echo "\n----------------------"
+  echo '[CONVERTING THUMBNAIL]'
+  echo "----------------------"
+  magick "$outputdir/$name.webp" -clamp -despeckle -enhance "$outputdir/$name.jpg"
+
+  echo "\n---------------------------"
+  echo '[ADDING THUMBNAIL TO VIDEO]'
+  echo "---------------------------"
+  ffmpeg -hide_banner -i "$outputdir/$name.mp4" -i "$outputdir/$name.jpg" -map 1 -map 0 -c copy -disposition:0 attached_pic "$outputdir/$finalname.mp4"
+
+  echo "\n------------------------"
+  echo '[CLEANING UP FILE PARTS]'
+  echo "------------------------"
+  rm "$outputdir/$name.webp" "$outputdir/$name.jpg" "$outputdir/$name.mp4"
+else
+  echo 'Usage: ytdl <url>' >&2
+  return 1
+fi

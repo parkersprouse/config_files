@@ -1,0 +1,6 @@
+local cmd="curl wttr.in"
+if [[ -n "$1" ]]; then
+  eval "$cmd/$1"
+else
+  eval "$cmd/Chalmette+LA"
+fi

@@ -1,0 +1,7 @@
+if [[ $# -eq 2 ]]; then
+  if_exists magick mogrify -format $2 $1
+else
+  echo 'Usage: iconvert <file> <extension>' >&2
+  echo 'Example: iconvert img.jpg png' >&2
+  return 1
+fi

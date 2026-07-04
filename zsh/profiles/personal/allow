@@ -1,0 +1,6 @@
+if [[ -n "$1" ]]; then
+  command xattr -d com.apple.quarantine "$1"
+else
+  echo 'Usage: allow <file>' >&2
+  return 1
+fi

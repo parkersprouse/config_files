@@ -1,0 +1,6 @@
+if [[ -n "$1" ]]; then
+  erase ExFAT EXT_USB MBRFormat $1
+else
+  echo 'Usage: wipedisk <device>' >&2
+  return 1
+fi

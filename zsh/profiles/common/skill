@@ -1,0 +1,12 @@
+if ! exists npx; then echo 'command "npx" not found' >&2; return 1; fi
+
+if [[ "$1" = "add" ]]; then
+  shift
+  command npx skills add $1 --global --agent universal claude-code --yes --skill $2
+elif [[ "$1" = "remove" ]]; then
+  shift
+  command npx skills remove $1
+else
+  shift
+  command npx skills $@
+fi

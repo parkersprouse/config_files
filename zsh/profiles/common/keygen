@@ -1,0 +1,20 @@
+if ! exists openssl; then echo 'command "openssl" not found' >&2; return 1; fi
+
+local use_defaults=false
+if (( $# > 2 )); then echo 'too many arguments provided. using default values (32, hex)' >&2; use_defaults=true; fi
+
+local size=32
+local encoding='hex'
+
+if [[ $use_defaults = false ]]; then
+  for arg in $@; do
+    case "$arg" in
+      # Look for an argument that's solely numeric to use as size
+      [0-9]*) size=$arg ;;
+      # And look to see if an acceptable encoding was provided
+      (base64|hex)) encoding=$arg ;;
+    esac
+  done
+fi
+
+openssl rand -$encoding $size;

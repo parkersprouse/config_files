@@ -1,0 +1,6 @@
+local cfg_file="$HOME/.oh-my-zsh/custom/config.zsh"
+if [[ -n "$1" ]] && exists $1; then
+  eval "if_exists $@ '$cfg_file'"
+else
+  command cat "$cfg_file"
+fi

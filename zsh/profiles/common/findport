@@ -1,0 +1,29 @@
+if [[ -n "$1" ]]; then
+  local -A opts
+  zparseopts -D -A opts -- \
+    p -process-id \
+    q -quiet
+
+  local rows=$(lsof -i -P | grep LISTEN | grep $1)
+
+  if [[ -z "$rows" ]]; then
+    if [[ -z ${opts[(i)-q]} && -z ${opts[(i)--quiet]} ]]; then
+      echo "No processes found running on port $1" >&2
+    fi
+    return 0
+  fi
+
+  local lines=("${(@f)rows}")
+  for row in $lines; do
+    local pid=$(echo "$row" | awk '{print $2}')
+    if [[ -n ${opts[(i)-p]} || -n ${opts[(i)--process-id]} ]]; then
+      echo "$pid"
+    else
+      local row_with_app="$(ps -ef | grep " $pid " | grep -v grep)"
+      echo "$row_with_app" | awk '{for(i=8;i<=NF;i++) printf "%s%s",$i,(i<NF?OFS:"\n")}'
+    fi
+  done
+else
+  echo 'Usage: findport <port>' >&2
+  return 1
+fi
