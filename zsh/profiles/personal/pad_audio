@@ -1,5 +1,5 @@
-if [[ -z $1 ]]; then echo 'Usage: pad_audio <file> [extension]' >&2; return 1; fi
-if ! exists ffmpeg || ! exists ffprobe; then echo 'FFmpeg must be installed to run this command' >&2; return 1; fi
+if ! exists ffmpeg || ! exists ffprobe; then return_error 'FFmpeg must be installed to run this command, and both the "ffmpeg" and "ffprobe" commands must be available'; fi
+if [[ -z $1 ]]; then return_error 'Usage: pad_audio <file> [extension]'; fi
 
 local input_file=$1
 

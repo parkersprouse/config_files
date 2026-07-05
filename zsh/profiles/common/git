@@ -1,4 +1,4 @@
-if ! exists git; then echo 'command "git" not found' >&2; return 1; fi
+ensure_exists git
 
 # Run 'git pull' on all subdirectories
 if [[ "$1" = "all" ]]; then

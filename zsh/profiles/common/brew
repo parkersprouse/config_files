@@ -1,10 +1,18 @@
-if ! exists brew; then echo 'command "brew" not found' >&2; return 1; fi
+ensure_exists brew
 
 # Fetch newest Homebrew and formulae versions, then upgrade outdated casks and formulae
 if [[ "$1" = "up" ]]; then
   command brew update && command brew upgrade && command brew cleanup
 elif [[ "$1" = "ui" ]] || [[ "$1" = "tui" ]]; then
-  command taproom $@
+  shift
+
+  if [[ -n "$1" ]]; then
+    eval "if_exists $@"
+  else
+    if exists bbrew; then command bbrew $@;
+    elif exists taproom; then command taproom $@;
+    else return_error 'no TUI for brew available'; fi
+  fi
 else
   command brew $@
 fi

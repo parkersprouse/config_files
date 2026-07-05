@@ -1,6 +1,5 @@
 if [[ -n "$1" ]]; then
   command diskutil unmountDisk $1
 else
-  echo 'Usage: unmount <device>' >&2
-  return 1
+  return_error 'Usage: unmount <device>'
 fi

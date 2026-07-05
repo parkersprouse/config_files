@@ -1,4 +1,4 @@
-if ! exists pnpm; then echo 'command "pnpm" not found' >&2; return 1; fi
+ensure_exists pnpm
 
 # Update pnpm
 if [[ "$1" = "upgrade" ]] || [[ "$1" = "up" ]]; then

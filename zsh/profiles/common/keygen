@@ -1,4 +1,4 @@
-if ! exists openssl; then echo 'command "openssl" not found' >&2; return 1; fi
+ensure_exists openssl
 
 local use_defaults=false
 if (( $# > 2 )); then echo 'too many arguments provided. using default values (32, hex)' >&2; use_defaults=true; fi

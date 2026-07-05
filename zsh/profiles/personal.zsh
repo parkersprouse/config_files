@@ -101,6 +101,19 @@ fi
 
 # --[[ GStreamer ]]--
 
+# ----
+# From new, non-deprecated `gstreamer` formula
+# ----
+# All gst-* GStreamer plugins are now bundled in this formula.
+# For GStreamer to find your own plugins, add their paths to 'GST_PLUGIN_PATH'
+# For example, if you have plugins in '~/.local/lib/gstreamer-1.0':
+#   `export GST_PLUGIN_PATH="~/ local/lib/gstreamer-1.0"`
+
+# Do not install plugins into GStreamer's prefix. They will be deleted by `brew upgrade`
+
+# ----
+# From previous, deprecated `gstreamer-runtime` formula
+# ----
 export PATH="$PATH:/Library/Frameworks/GStreamer.framework/Versions/1.0/bin"
 
 # export GI_TYPELIB_PATH="/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/girepository-1.0"
@@ -131,7 +144,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # export PYENV_ROOT="$HOME/.pyenv"
 # [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-
+#
 # if exists pyenv; then
 #   eval "$(pyenv init -)"
 #   eval "$(pyenv virtualenv-init -)"

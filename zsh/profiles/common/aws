@@ -1,4 +1,4 @@
-if ! exists aws; then echo 'command "aws" not found' >&2; return 1; fi
+ensure_exists aws
 
 # Update the AWS CLI
 if [[ "$1" = "update" ]]; then

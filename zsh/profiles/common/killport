@@ -2,8 +2,7 @@ if [[ -n "$1" ]]; then
   local pids="$(findport -p -q $1)"
 
   if [[ -z "$pids" ]]; then
-    echo "No processes found running on port $1" >&2
-    return 1
+    return_error "No processes found running on port $1"
   fi
 
   local lines=("${(@f)pids}")
@@ -12,6 +11,5 @@ if [[ -n "$1" ]]; then
     echo "Successfully killed process with PID $pid running on port $1" >&2
   done
 else
-  echo 'Usage: killport <port>' >&2
-  return 1
+  return_error 'Usage: killport <port>'
 fi

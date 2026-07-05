@@ -24,6 +24,5 @@ if [[ -n "$1" ]]; then
     fi
   done
 else
-  echo 'Usage: findport <port>' >&2
-  return 1
+  return_error 'Usage: findport <port>'
 fi

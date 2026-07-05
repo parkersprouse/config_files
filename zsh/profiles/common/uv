@@ -1,4 +1,4 @@
-if ! exists uv; then echo 'command "uv" not found' >&2; return 1; fi
+ensure_exists uv
 
 if [[ "$1" = "python" ]]; then
   shift

@@ -12,6 +12,5 @@ local device=$4
 if [[ -n "$device" ]]; then
   command diskutil eraseDisk $format $name $type $device
 else
-  echo 'Usage: erase <format> <name> [APM[Format] | MBR[Format] | GPT[Format]] <device>' >&2
-  return 1
+  return_error 'Usage: erase <format> <name> [APM[Format] | MBR[Format] | GPT[Format]] <device>'
 fi

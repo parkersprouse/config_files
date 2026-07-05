@@ -1,6 +1,5 @@
 if exists $1; then
   $@
 else
-  echo "command \"$1\" not found" >&2
-  return 1
+  return_error "command \"$1\" not found"
 fi

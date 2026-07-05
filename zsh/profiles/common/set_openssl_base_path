@@ -1,4 +1,4 @@
-if ! exists openssl; then echo 'command "openssl" not found' >&2; return 1; fi
+ensure_exists openssl
 
 local openssl_path=$(which openssl)
 local resolved_symlink=$(readlink $openssl_path)

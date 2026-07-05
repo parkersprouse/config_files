@@ -2,10 +2,8 @@ if [[ -n "$1" ]]; then
   if [[ -d "$1" ]]; then
     command rm -rf "$1"
   else
-    echo "\"$1\" is not a directory" >&2
-    return 1
+    return_error "\"$1\" is not a directory"
   fi
 else
-  echo 'Usage: rmdir <name>' >&2
-  return 1
+  return_error 'Usage: rmdir <name>'
 fi

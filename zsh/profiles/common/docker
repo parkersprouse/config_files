@@ -1,4 +1,4 @@
-if ! exists docker; then echo 'command "docker" not found' >&2; return 1; fi
+ensure_exists docker
 
 if [[ "$1" = "purge" ]] || [[ "$1" = "nuke" ]]; then
   command docker system prune -a -f --volumes

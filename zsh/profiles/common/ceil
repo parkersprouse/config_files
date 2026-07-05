@@ -3,6 +3,5 @@ if [[ -n $1 ]]; then
         else {if (scale(x)==0) {return x} \
         else {return x/1 + 1 }}} ; ceil($1)" | bc
 else
-  echo 'Usage: ceil <number>' >&2
-  return 1
+  return_error 'Usage: ceil <number>'
 fi

@@ -162,9 +162,6 @@ fi
 # Aliases #
 #---------#
 
-alias editconfig="editomz $@"
-alias viewconfig="viewomz $@"
-
 alias term="shell $@"
 alias warp="shell $@"
 
@@ -175,6 +172,7 @@ alias secretgen="keygen $@"
 
 alias copy="pbcopy"
 alias paste="pbpaste"
+
 
 # --[[ Convenience / Utility aliases ]]--
 

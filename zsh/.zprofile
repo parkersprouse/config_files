@@ -74,9 +74,7 @@ save() {
       elif (( $ARGS_HELP[(Ie)$arg] )); then
         show_save_help
       else
-        echo "Unexpected argument: '$arg'" >&2
-        echo "Use '-h' or '--help' for usage" >&2
-        return 1
+        return_error "Unexpected argument: '$arg'\nUse '-h' or '--help' for usage"
       fi
     done
   fi

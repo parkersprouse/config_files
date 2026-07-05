@@ -1,4 +1,4 @@
-if ! exists nvm; then echo 'command "nvm" not found' >&2; return 1; fi
+ensure_exists nvm
 
 if [[ "$1" = "update" ]]; then
   local nvm_version="v0.40.4"

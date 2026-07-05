@@ -1,0 +1,19 @@
+local starting_path=$(realpath ~/.oh-my-zsh/custom/config.zsh)
+# => /Users/parker/Code/config_files/zsh/config.zsh
+
+# echo $starting_path | sed 's/[^//]//g' | awk '{ print length }'
+# => # of '/' characters in path
+
+# local config_path
+# for dir in '/' count
+#   local resolved_path=$(realpath "$starting_path$('/../' * current_iteration)/config_files.code-workspace")
+#   config_path=find $resolved_path -maxdepth 0
+#   (when found)
+#   code --new-window "$config_path"
+#   return 0
+
+if [[ -n "$1" ]] && exists $1; then
+  eval "if_exists $@ '$config_path'"
+else
+  if_exists code --new-window "$config_path"
+fi

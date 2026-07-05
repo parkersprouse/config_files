@@ -1,17 +1,9 @@
-if ! exists docker; then echo 'command "docker" not found' >&2; return 1; fi
+# ensure_exists docker # --> why was a check for the existence of docker originally here?
+ensure_exists yt-dlp
+ensure_exists magick
+ensure_exists ffmpeg
 
 if [ -n "$1" ]; then
-  if ! exists yt-dlp; then
-    echo "command \"yt-dlp\" not found" >&2
-    return 1
-  elif ! exists magick; then
-    echo "command \"magick\" not found" >&2
-    return 1
-  elif ! exists ffmpeg; then
-    echo "command \"ffmpeg\" not found" >&2
-    return 1
-  fi
-
   local outputdir="${PWD}"
   # if [[ ! -d "$outputdir" ]]; then mkdir "$outputdir"; fi
 
@@ -58,6 +50,5 @@ if [ -n "$1" ]; then
   echo "------------------------"
   rm "$outputdir/$name.webp" "$outputdir/$name.jpg" "$outputdir/$name.mp4"
 else
-  echo 'Usage: ytdl <url>' >&2
-  return 1
+  return_error 'Usage: ytdl <url>'
 fi

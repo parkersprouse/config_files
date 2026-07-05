@@ -1,4 +1,4 @@
-if ! exists make; then echo 'command "make" not found' >&2; return 1; fi
+ensure_exists make
 
 if [[ "$1" = "purge" ]] || [[ "$1" = "nuke" ]]; then
   command make stop && command make clean && docker purge
