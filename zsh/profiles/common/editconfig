@@ -1,19 +1,26 @@
-local starting_path=$(realpath ~/.oh-my-zsh/custom/config.zsh)
-# => /Users/parker/Code/config_files/zsh/config.zsh
+# the `2>/dev/null` redirects any native command error output to `/dev/null` so that only our custom error ends up being printed
+# in the terminal. whether this redirection is done or not, the error output will not end up as part of the variable value.
+local starting_path=$(realpath ~/.oh-my-zsh/custom/config.zsh 2>/dev/null)
+if [[ -z "$starting_path" ]]; then return_error 'config.zsh not found'; fi
 
-# echo $starting_path | sed 's/[^//]//g' | awk '{ print length }'
-# => # of '/' characters in path
+local search_dir=$(dirname "$starting_path")
+local workspace_path=""
+while [[ "$search_dir" != "/" ]]; do
+  local matches=("${(@f)$(command find "$search_dir" -maxdepth 1 -name '*.code-workspace')}")
+  if (( ${#matches[@]} > 1 )); then
+    return_error "Multiple .code-workspace files found in \"$search_dir\": ${matches[*]}"
+  elif [[ -n "$matches[1]" ]]; then
+    workspace_path="$matches[1]"
+    break
+  fi
+  search_dir=$(dirname "$search_dir")
+done
 
-# local config_path
-# for dir in '/' count
-#   local resolved_path=$(realpath "$starting_path$('/../' * current_iteration)/config_files.code-workspace")
-#   config_path=find $resolved_path -maxdepth 0
-#   (when found)
-#   code --new-window "$config_path"
-#   return 0
+if [[ -z "$workspace_path" ]]; then return_error "No .code-workspace file found in any parent directory of \"$starting_path\""; fi
 
-if [[ -n "$1" ]] && exists $1; then
-  eval "if_exists $@ '$config_path'"
+if [[ -n "$1" ]]; then
+  local workspace_dir=$(dirname "$workspace_path")
+  eval "if_exists $@ '$workspace_dir'"
 else
-  if_exists code --new-window "$config_path"
+  if_exists code --new-window "$workspace_path"
 fi
