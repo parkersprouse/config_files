@@ -3,4 +3,4 @@ if [[ -d /Applications/ForkLift.app ]]; then
   command open -a ForkLift $@;
 else
   command open $@;
-end
+fi

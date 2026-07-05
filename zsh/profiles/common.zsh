@@ -85,7 +85,7 @@ alias skills="skill"
 
 if exists aws_completer; then
   # Load autocomplete for the AWS CLI
-  complete -C "'$(echo $(which aws_completer))'" aws
+  complete -C "$(which aws_completer)" aws
 fi
 
 

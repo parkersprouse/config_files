@@ -7,7 +7,7 @@ if [[ -n "$1" ]]; then
   fi
 
   local lines=("${(@f)pids}")
-  for pid in $pids; do
+  for pid in $lines; do
     kill $pid
     echo "Successfully killed process with PID $pid running on port $1" >&2
   done

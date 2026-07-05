@@ -5,7 +5,7 @@ local name=$2
 if [[ -z $name ]]; then name="EXT_USB"; fi
 
 local type=$3
-if [[ -z $type ]]; then format="MBRFormat"; fi
+if [[ -z $type ]]; then type="MBRFormat"; fi
 
 local device=$4
 

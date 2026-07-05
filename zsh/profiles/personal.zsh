@@ -38,20 +38,22 @@ export PATH="$PATH:/opt/phantomjs/bin"
 
 # GNU getopt
 if exists brew; then
-  export PATH="$PATH:$(brew --prefix gnu-getopt)/bin"
-  export FLAGS_GETOPT_CMD="$(brew --prefix gnu-getopt)/bin/getopt"
+  local gnu_getopt_prefix="$(brew --prefix gnu-getopt)"
+  export PATH="$PATH:$gnu_getopt_prefix/bin"
+  export FLAGS_GETOPT_CMD="$gnu_getopt_prefix/bin/getopt"
 fi
 
 # Additional PATH Exports
 export PATH="$PATH:$HOME/Downloads/tone"
-export PATH="$(brew --prefix postgresql@16)/bin:$PATH"
+local postgresql_prefix="$(brew --prefix postgresql@16)"
+export PATH="$postgresql_prefix/bin:$PATH"
 
 # Environment Exports
 export CPPFLAGS="-I$(brew --prefix openjdk@11)/include"
 
-export LDFLAGS="$LDFLAGS -L$(brew --prefix postgresql@16)/lib"
-export CPPFLAGS="$CPPFLAGS -I$(brew --prefix postgresql@16)/include"
-export PKG_CONFIG_PATH="$PKG_CONFIG_PATH $(brew --prefix postgresql@16)/lib/pkgconfig"
+export LDFLAGS="$LDFLAGS -L$postgresql_prefix/lib"
+export CPPFLAGS="$CPPFLAGS -I$postgresql_prefix/include"
+export PKG_CONFIG_PATH="$PKG_CONFIG_PATH $postgresql_prefix/lib/pkgconfig"
 
 
 #--------------#

@@ -10,7 +10,7 @@ elif [[ "$1" = "login" ]]; then
     shift
     aws sso login --profile $@
   else
-    aws sso login --profile $(echo $AWS_PROFILE)
+    aws sso login --profile $AWS_PROFILE
   fi
 else
   command aws $@
