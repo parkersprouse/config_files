@@ -23,7 +23,7 @@
   (( ${#profile_funcs} )) && autoload -Uz $profile_funcs
   [[ -f "$ZSH/custom/profiles/common.zsh" ]] && source "$ZSH/custom/profiles/common.zsh"
 
-  if [[ -n "$(system_profiler SPConfigurationProfileDataType | grep -i buspatrol)" ]]; then
+  if [[ -f "$ZSH/custom/work_env" ]]; then
     # Configuration, functions, and aliases specific to my work environment
     fpath=("$ZSH/custom/profiles/work" $fpath)
     profile_funcs=("$ZSH/custom/profiles/work"/*(N:t))
