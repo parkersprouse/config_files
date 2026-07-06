@@ -39,11 +39,6 @@ export COLOR_WHITE='\e[1;37m'
 export COLOR_YELLOW='\e[1;33m'
 # End terminal color variables
 
-alias ll='command ls -G -F -oah'
-# alias ls='command ls -G -F -oh' # Preferred "ls" implementation - have to be careful, can break dependent scripts
-alias cp='cp -iv' # Preferred 'cp' implementation
-alias mv='mv -iv' # Preferred 'mv' implementation
-
 if [[ -d /Applications/ForkLift.app ]]; then
   alias fl="open $@"
   alias forklift="fl $@"

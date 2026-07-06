@@ -1,0 +1,2 @@
+# Preferred 'cp' implementation
+cp -iv $@

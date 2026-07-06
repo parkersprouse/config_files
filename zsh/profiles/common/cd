@@ -1,1 +1,2 @@
-builtin cd "$@"; ll;
+builtin cd "$@"
+ll

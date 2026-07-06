@@ -61,6 +61,8 @@ plugins=(forklift git history z zsh-autosuggestions zsh-syntax-highlighting)
 # [ -s "$HOME/.mole/_mole_completions" ] && source "$HOME/.mole/_mole_completions"
 
 source "$ZSH/oh-my-zsh.sh"
+# remove omz's `ll` alias so ours becomes available
+unalias ll 2>/dev/null
 
 # Initialize Starship - has to happen here, last, and not in Oh My Zsh config
 eval "$(starship init zsh)"
