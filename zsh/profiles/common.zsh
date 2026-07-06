@@ -1,3 +1,6 @@
+# autoload `throw` and `catch` so we can do our own error handling
+autoload throw catch
+
 if ! command -v bashcompinit >/dev/null; then
   autoload bashcompinit && bashcompinit
 fi
@@ -61,6 +64,8 @@ alias reload="source $HOME/.zshrc"
 
 export PATH="$PATH:/usr/local/bin"
 export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.cargo/env"
+export PATH="$PATH:$HOME/.rvm/bin"
 
 # Homebrew shellenv
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -99,6 +104,11 @@ export DO_NOT_TRACK=true
 export GITHUB_PERSONAL_ACCESS_TOKEN=$(security find-generic-password -a "$USER" -s "github-claude-mcp-pat" -w)
 
 
+# --[[ Mole ]]--
+
+[[ -f "$HOME/.mole/_mole_completions" ]] && source "$HOME/.mole/_mole_completions"
+
+
 # --[[ OpenSSL ]]--
 
 # Switch to OpenSSL 1.1 (required for building Ruby < 3.1 and Node 10)
@@ -124,14 +134,14 @@ case ":$PATH:" in
 esac
 
 # Source pnpm tab completion if available (from either location)
-[[ -s "$HOME/.pnpm/pnpm-tab-completion.zsh" ]] && source "$HOME/.pnpm/pnpm-tab-completion.zsh"
+[[ -f "$HOME/.pnpm/pnpm_tab_completion.zsh" ]] && source "$HOME/.pnpm/pnpm_tab_completion.zsh"
 
 alias pn="pnpm $@"
 
 
 # --[[ RVM ]]--
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+[[ -f "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 
 # --[[ Rust / Cargo ]]--

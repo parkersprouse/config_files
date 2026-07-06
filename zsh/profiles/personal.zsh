@@ -4,8 +4,6 @@
 
 # export VIRTUAL_ENV_DISABLE_PROMPT=1 # unsure if still needed - possibly for pyenv?
 
-export PATH="$PATH:$HOME/.cargo/env"
-export PATH="$PATH:$HOME/.rvm/bin"
 # export PATH="/usr/local/opt/libfqi/bin:$PATH"
 # export PATH="$PATH:/usr/local/git/bin"
 # export PATH="$PATH:/sw/bin"
