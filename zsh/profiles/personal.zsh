@@ -21,12 +21,18 @@ export PATH="$PATH:$HOME/.dotnet/tools"
 # OpenJDK
 export PATH="$(brew --prefix openjdk@21)/bin:$PATH"
 
-# Android SDK Command Line Tools
-export ANDROID_BUILD_TOOLS_VERSION="36.0.0-rc5"
-export ANDROID_HOME="$HOME/.android/"
-export ANDROID_SDK_ROOT="$ANDROID_HOME"
-export PATH="$PATH:$HOME/Library/Android/sdk/build-tools/$ANDROID_BUILD_TOOLS_VERSION"
-export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
+# Android SDK Command Line Tools (required by Tauri for device/emulator detection, among other libs)
+# export ANDROID_HOME="$HOME/.android/"
+# export ANDROID_SDK_ROOT="$ANDROID_HOME"
+export ANDROID_BUILD_TOOLS_VERSION="37.0.0"
+export ANDROID_NDK_VERSION="30.0.14904198"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export NDK_HOME="$ANDROID_HOME/ndk/$ANDROID_NDK_VERSION"
+export PATH="$PATH:$ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VERSION"
+export PATH="$PATH:$ANDROID_HOME/emulator"
+export PATH="$PATH:$ANDROID_HOME/platform-tools"
+export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+
 
 # Flutter SDK
 export PATH="$PATH:$HOME/Library/Flutter/sdk/bin"
