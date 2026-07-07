@@ -56,14 +56,11 @@ zstyle ':omz:update' mode auto      # update automatically without asking
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git history z)
+plugins=(forklift git history z zsh-autosuggestions zsh-syntax-highlighting)
 
 source "$ZSH/oh-my-zsh.sh"
 # remove omz's `ll` alias so ours becomes available
 unalias ll 2>/dev/null
-
-source "$ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
-source "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # Initialize Starship - has to happen here, last, and not in Oh My Zsh config
 eval "$(starship init zsh)"

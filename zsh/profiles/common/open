@@ -1,6 +1,16 @@
 # Modify the `open` command to use ForkLift instead of Finder, when available
+
+local input=$1
+local target='.'
+if [[ ! -z "$input" ]]; then
+  target=$input
+  if [[ ! -d "$input" ]]; then
+    target=$(dirname $input)
+  fi
+fi
+
 if [[ -d /Applications/ForkLift.app ]]; then
-  command open -a ForkLift $@;
+  fl $target;
 else
-  command open $@;
+  builtin open $target;
 fi

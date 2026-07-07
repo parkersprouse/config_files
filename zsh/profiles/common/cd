@@ -1,2 +1,11 @@
-builtin cd "$@"
+local input=$1
+local target='.'
+if [[ ! -z "$input" ]]; then
+  target=$input
+  if [[ ! -d "$input" ]]; then
+    target=$(dirname $input)
+  fi
+fi
+
+builtin cd $target
 ll

@@ -42,11 +42,6 @@ export COLOR_WHITE='\e[1;37m'
 export COLOR_YELLOW='\e[1;33m'
 # End terminal color variables
 
-if [[ -d /Applications/ForkLift.app ]]; then
-  alias fl="open $@"
-  alias forklift="fl $@"
-fi
-
 # Modify the title of the window to only show the current directory's path
 precmd_functions+=(set_win_title)
 
