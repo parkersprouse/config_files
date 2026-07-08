@@ -11,29 +11,32 @@
 #   mutates the real global `fpath` - scoping in zsh applies to new bindings, not to reassignment of something that
 #   already exists globally.
 
-() {
-  # define "profile_funcs" as an array
-  local -a profile_funcs
+# only load up our shell customizations when in interactive shell sessions (i.e. sessions we opened)
+if [[ -o interactive ]]; then
+  () {
+    # define "profile_funcs" as an array
+    local -a profile_funcs
 
-  # Configuration, functions, and aliases common to all environments
-  fpath=("$ZSH/custom/profiles/common" $fpath)
-  profile_funcs=("$ZSH/custom/profiles/common"/*(N:t))
-  # verify that function files actually exist before attempting to autoload them - otherwise zsh will fallback to
-  #   loading *all* functions (including built-in / stdlib ones)
-  (( ${#profile_funcs} )) && autoload -Uz $profile_funcs
-  [[ -f "$ZSH/custom/profiles/common.zsh" ]] && source "$ZSH/custom/profiles/common.zsh"
+    # Configuration, functions, and aliases common to all environments
+    fpath=("$ZSH/custom/profiles/common" $fpath)
+    profile_funcs=("$ZSH/custom/profiles/common"/*(N:t))
+    # verify that function files actually exist before attempting to autoload them - otherwise zsh will fallback to
+    #   loading *all* functions (including built-in / stdlib ones)
+    (( ${#profile_funcs} )) && autoload -Uz $profile_funcs
+    [[ -f "$ZSH/custom/profiles/common.zsh" ]] && source "$ZSH/custom/profiles/common.zsh"
 
-  if [[ -f "$ZSH/custom/work_env" ]]; then
-    # Configuration, functions, and aliases specific to my work environment
-    fpath=("$ZSH/custom/profiles/work" $fpath)
-    profile_funcs=("$ZSH/custom/profiles/work"/*(N:t))
-    (( ${#profile_funcs} )) && autoload -Uz $profile_funcs
-    [[ -f "$ZSH/custom/profiles/work.zsh" ]] && source "$ZSH/custom/profiles/work.zsh"
-  else
-    # Configuration, functions, and aliases specific to my personal environment
-    fpath=("$ZSH/custom/profiles/personal" $fpath)
-    profile_funcs=("$ZSH/custom/profiles/personal"/*(N:t))
-    (( ${#profile_funcs} )) && autoload -Uz $profile_funcs
-    [[ -f "$ZSH/custom/profiles/personal.zsh" ]] && source "$ZSH/custom/profiles/personal.zsh"
-  fi
-}
+    if [[ -f "$ZSH/custom/work_env" ]]; then
+      # Configuration, functions, and aliases specific to my work environment
+      fpath=("$ZSH/custom/profiles/work" $fpath)
+      profile_funcs=("$ZSH/custom/profiles/work"/*(N:t))
+      (( ${#profile_funcs} )) && autoload -Uz $profile_funcs
+      [[ -f "$ZSH/custom/profiles/work.zsh" ]] && source "$ZSH/custom/profiles/work.zsh"
+    else
+      # Configuration, functions, and aliases specific to my personal environment
+      fpath=("$ZSH/custom/profiles/personal" $fpath)
+      profile_funcs=("$ZSH/custom/profiles/personal"/*(N:t))
+      (( ${#profile_funcs} )) && autoload -Uz $profile_funcs
+      [[ -f "$ZSH/custom/profiles/personal.zsh" ]] && source "$ZSH/custom/profiles/personal.zsh"
+    fi
+  }
+fi
