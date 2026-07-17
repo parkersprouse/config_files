@@ -127,6 +127,7 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
+export PATH="$PATH:$PNPM_HOME/bin"
 
 # Source pnpm tab completion if available (from either location)
 [[ -f "$HOME/.pnpm/pnpm_tab_completion.zsh" ]] && source "$HOME/.pnpm/pnpm_tab_completion.zsh"
