@@ -1,0 +1,20 @@
+ensure_exists nvm
+
+local nvm_version
+nvm_version="$(curl -sIXHEAD "https://github.com/nvm-sh/nvm/releases/latest" | grep -i '^location:' | tr -d '[:space:]')"
+nvm_version="${nvm_version##*/}"
+if [[ -z $nvm_version ]]; then return $(return_error "failed to retrieve latest nvm version"); fi
+
+echo "Updating nvm to version $nvm_version"
+echo "------------------------------------"
+
+# The 'PROFILE=/dev/null' prefix, used with this specific eval format, prevents the script from auto-updating any of
+# the shell profile configs
+eval "PROFILE=/dev/null zsh -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$nvm_version/install.sh | bash'"
+
+# @TODO: For some reason, attempting to shadow the `nvm` command like this doesn't work like it does
+#        with other commands.
+# if [[ "$1" = "update" || "$1" = "up" ]]; then
+# else
+#   command nvm $@
+# fi

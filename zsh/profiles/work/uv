@@ -1,0 +1,12 @@
+# --[[ uv ]]--
+
+# When running `uv python install`, pass the `--default` flag to make the chosen version the global Python version.
+# This will install it at `~/.local/bin/python`
+# if exists uv; then
+#   # ensure we always use the version of Python managed by `uv`
+#   export UV_MANAGED_PYTHON=1
+
+#   # ensure the Python binary gets added to our `PATH`
+#   local PYTHON_DIR="$(dirname "$(uv python find --no-project)")"
+#   [[ -d $PYTHON_DIR ]] && export PATH="$PATH:$PYTHON_DIR"
+# fi

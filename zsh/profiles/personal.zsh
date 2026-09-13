@@ -2,8 +2,6 @@
 # General Exports #
 #-----------------#
 
-# export VIRTUAL_ENV_DISABLE_PROMPT=1 # unsure if still needed - possibly for pyenv?
-
 # export PATH="/usr/local/opt/libfqi/bin:$PATH"
 # export PATH="$PATH:/usr/local/git/bin"
 # export PATH="$PATH:/sw/bin"
@@ -19,7 +17,8 @@ export PATH="$PATH:$HOME/.dotnet"
 export PATH="$PATH:$HOME/.dotnet/tools"
 
 # OpenJDK
-export PATH="$(brew --prefix openjdk@21)/bin:$PATH"
+export JAVA_HOME="$(brew --prefix openjdk@21)"
+export PATH="$JAVA_HOME/bin:$PATH"
 
 # Android SDK Command Line Tools (required by Tauri for device/emulator detection, among other libs)
 # export ANDROID_HOME="$HOME/.android/"
@@ -31,7 +30,6 @@ export NDK_HOME="$ANDROID_HOME/ndk/$ANDROID_NDK_VERSION"
 export PATH="$PATH:$ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VERSION"
 export PATH="$PATH:$ANDROID_HOME/emulator"
 export PATH="$PATH:$ANDROID_HOME/platform-tools"
-export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
 
 
 # Flutter SDK
@@ -53,7 +51,7 @@ local postgresql_prefix="$(brew --prefix postgresql@16)"
 export PATH="$postgresql_prefix/bin:$PATH"
 
 # Environment Exports
-export CPPFLAGS="-I$(brew --prefix openjdk@11)/include"
+export CPPFLAGS="-I$JAVA_HOME/include"
 
 export LDFLAGS="$LDFLAGS -L$postgresql_prefix/lib"
 export CPPFLAGS="$CPPFLAGS -I$postgresql_prefix/include"
@@ -137,22 +135,20 @@ export PATH="$PATH:/Library/Frameworks/GStreamer.framework/Versions/1.0/bin"
 #   export PKG_CONFIG_PATH=$(brew --prefix libffi)/lib/pkgconfig
 
 
+# --[[ Java ]]--
+
+# Switch to JDK 17
+alias jdk17="brew unlink openjdk@21 && brew link openjdk@17 && export JAVA_HOME='$(brew --prefix openjdk@17)'"
+# Switch to JDK 21
+alias jdk21="brew unlink openjdk@17 && brew link openjdk@21 && export JAVA_HOME='$(brew --prefix openjdk@21)'"
+
+
 # --[[ nvm ]]--
 
 export NVM_DIR="$HOME/.nvm"
-[[ -f $NVM_DIR/nvm.sh ]] && source "$NVM_DIR/nvm.sh" # Load nvm
-[[ -f $NVM_DIR/bash_completion ]] && source "$NVM_DIR/bash_completion" # Load nvm bash_completion
+[[ -s "$NVM_DIR/nvm.sh" ]] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[[ -s "$NVM_DIR/bash_completion" ]] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-
-# --[[ pyenv ]]-- (has been replaced by uv)
-
-# export PYENV_ROOT="$HOME/.pyenv"
-# [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-#
-# if exists pyenv; then
-#   eval "$(pyenv init -)"
-#   eval "$(pyenv virtualenv-init -)"
-# fi
 
 
 #---------#

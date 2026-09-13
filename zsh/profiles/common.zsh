@@ -125,14 +125,27 @@ export COREPACK_ENABLE_AUTO_PIN=0
 export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME:$PNPM_HOME/bin:$PATH" ;;
 esac
-export PATH="$PATH:$PNPM_HOME/bin"
 
 # Source pnpm tab completion if available (from either location)
 [[ -f "$HOME/.pnpm/pnpm_tab_completion.zsh" ]] && source "$HOME/.pnpm/pnpm_tab_completion.zsh"
 
 alias pn="pnpm $@"
+
+
+# -- [[ pyenv ]]
+
+if exists pyenv; then
+  # disables the prompt that python automatically creates for venvs
+  export VIRTUAL_ENV_DISABLE_PROMPT=1
+  export PYENV_ROOT="$HOME/.pyenv"
+  [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init - zsh)"
+  eval "$(pyenv virtualenv-init - zsh)"
+  source "$PYENV_ROOT/completions/pyenv.zsh"
+fi
 
 
 # --[[ RVM ]]--
