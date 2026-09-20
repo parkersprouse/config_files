@@ -104,6 +104,30 @@ export GITHUB_PERSONAL_ACCESS_TOKEN=$(security find-generic-password -a "$USER" 
 [[ -f "$HOME/.mole/_mole_completions" ]] && source "$HOME/.mole/_mole_completions"
 
 
+# --[[ nvm ]]--
+
+export NVM_DIR="$HOME/.nvm"
+
+# nvm is incompatible with zsh's `extendedglob` option,
+# so we have the load and run nvm without it
+
+# Load nvm with `extendedglob` off (the option is restored when the block exits)
+() {
+  setopt localoptions noextendedglob
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                    # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+}
+
+# Run every later nvm call without extendedglob too
+if (( $+functions[nvm] )); then
+  functions -c nvm _nvm_original
+  nvm() {
+    setopt localoptions noextendedglob
+    _nvm_original "$@"
+  }
+fi
+
+
 # --[[ OpenSSL ]]--
 
 # Switch to OpenSSL 1.1 (required for building Ruby < 3.1 and Node 10)
@@ -131,8 +155,6 @@ esac
 
 # Source pnpm tab completion if available (from either location)
 [[ -f "$HOME/.pnpm/pnpm_tab_completion.zsh" ]] && source "$HOME/.pnpm/pnpm_tab_completion.zsh"
-
-alias pn="pnpm $@"
 
 
 # -- [[ pyenv ]]

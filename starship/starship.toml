@@ -166,6 +166,9 @@ us-east-2 = 'ue2'
 [azure]
 style = 'bright-blue'
 
+[battery]
+disabled = true
+
 [buf]
 style = 'bright-blue'
 symbol = " "

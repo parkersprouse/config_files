@@ -143,14 +143,6 @@ alias jdk17="brew unlink openjdk@21 && brew link openjdk@17 && export JAVA_HOME=
 alias jdk21="brew unlink openjdk@17 && brew link openjdk@21 && export JAVA_HOME='$(brew --prefix openjdk@21)'"
 
 
-# --[[ nvm ]]--
-
-export NVM_DIR="$HOME/.nvm"
-[[ -s "$NVM_DIR/nvm.sh" ]] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[[ -s "$NVM_DIR/bash_completion" ]] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-
-
 #---------#
 # Aliases #
 #---------#

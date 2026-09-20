@@ -67,16 +67,6 @@ export PATH="$PATH:/Library/Frameworks/GStreamer.framework/Versions/1.0/bin"
 #   export PKG_CONFIG_PATH=$(brew --prefix libffi)/lib/pkgconfig
 
 
-# --[[ nvm ]]--
-
-# The 'PROFILE=/dev/null' prefix prevents the script from auto-updating any of the shell profile configs
-alias updatenvm="PROFILE=/dev/null zsh -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash'"
-
-export NVM_DIR="$HOME/.nvm"
-[[ -f $NVM_DIR/nvm.sh ]] && source "$NVM_DIR/nvm.sh" # Load nvm
-[[ -f $NVM_DIR/bash_completion ]] && source "$NVM_DIR/bash_completion" # Load nvm bash_completion
-
-
 # --[[ pyenv ]]--
 
 export PYENV_ROOT="$HOME/.pyenv"
